@@ -1,1 +1,1 @@
-from . import jsonParser
+from .jsonParser import JsonFile
