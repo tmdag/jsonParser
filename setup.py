@@ -7,5 +7,5 @@ setup(name='jsonparser',
       author='Albert Szostkiewicz',
       author_email='tmdag@tmdag.com',
       license='MIT',
-      packages=['jsonparser'],
+      packages=['jsonparser','json'],
       zip_safe=False)

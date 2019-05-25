@@ -9,8 +9,13 @@ GitHub: https://github.com/tmdag/jsonParser
 ## Overview
 A wrapper on top of original python `json` module.
 
-## Usage:
+## Installation:
+```bash
+pip install git+https://github.com/tmdag/jsonParser
 ```
+
+## Usage:
+```python
 from jsonParser import JsonFile
 my_json = JsonFile("some/json_file.json").load()
 print(my_json)
