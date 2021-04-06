@@ -35,5 +35,5 @@ class JsonFile:
 
 if __name__ == '__main__':
 
-    TESTDATA = JsonFile("../data/BCtax2017.json").load()
+    TESTDATA = JsonFile("/tools/pipeline/structure/hdrFolderTemplate.json").load()
     print(TESTDATA)
