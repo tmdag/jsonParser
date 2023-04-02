@@ -1,39 +1,47 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-'''
+"""
 Little Json file parsing module helper
-'''
+"""
 import json
+import logging
+from pathlib import Path
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 class JsonFile:
-    ''' Little Json file parsing module helper '''
-    def __init__(self, file):
-        self.file = file
-        if self.file == '':
-            raise Exception('no file name provided')
+    """ Little Json file parsing module helper """
+    def __init__(self, file: str):
+        self.file = Path(file)
+        if not self.file.name:
+            raise ValueError('No file name provided')
 
-    def load(self):
-        ''' load json file '''
+    def load(self) -> dict:
+        """ Load JSON file """
         try:
-            with open(self.file, 'r') as jsonfile:
+            with self.file.open('r', encoding='utf-8') as jsonfile:
                 data = json.load(jsonfile)
                 return data
-        except Exception as error_msg:
-            print("Error loading json file: {}".format(error_msg))
+        except Exception as error:
+            logger.error(f"Error loading JSON file {self.file}: {error}")
+            raise
 
-    def save(self, data):
-        ''' save json file '''
-        if not self.file.lower().endswith(('.json')):
-            self.file += ".json"
+    def save(self, data: dict) -> None:
+        """ Save JSON file """
+        if not self.file.suffix.lower() == '.json':
+            self.file = self.file.with_suffix('.json')
+
         try:
-            with open(self.file, 'w') as jsonfile:
+            with self.file.open('w', encoding='utf-8') as jsonfile:
                 json.dump(data, jsonfile, sort_keys=False, indent=2,
                           separators=(',', ': '), ensure_ascii=False)
-                print("file saved: {}".format(self.file))
-        except Exception as error_msg:
-            print("Error saving json file: {}".format(error_msg))
+                logger.info(f"File saved: {self.file}")
+        except Exception as error:
+            logger.error(f"Error saving JSON file {self.file}: {error}")
+            raise
 
 if __name__ == '__main__':
-
-    TESTDATA = JsonFile("/tools/pipeline/structure/hdrFolderTemplate.json").load()
-    print(TESTDATA)
+    test_data_file = JsonFile("/tools/pipeline/structure/hdrFolderTemplate.json")
+    test_data = test_data_file.load()
+    print(test_data)
